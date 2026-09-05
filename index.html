@@ -1,149 +1,524 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NOVA AI</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOVA — Inteligência Artificial</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
 
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #0f172a;
-            color: white;
-            min-height: 100vh;
-        }
+:root{
+    --bg:#050814;
+    --panel:rgba(14,20,39,.72);
+    --border:rgba(255,255,255,.09);
+    --text:#f7f8ff;
+    --muted:#8992ad;
+    --accent:#8b5cf6;
+    --accent2:#06b6d4;
+}
 
-        .container {
-            max-width: 700px;
-            margin: auto;
-            padding: 30px 20px;
-        }
+body{
+    min-height:100vh;
+    font-family:Arial, sans-serif;
+    color:var(--text);
+    background:
+        radial-gradient(circle at 50% 0%,rgba(139,92,246,.22),transparent 32%),
+        radial-gradient(circle at 100% 70%,rgba(6,182,212,.12),transparent 30%),
+        var(--bg);
+    overflow-x:hidden;
+}
 
-        .logo {
-            text-align: center;
-            font-size: 42px;
-            font-weight: bold;
-            margin-top: 40px;
-        }
+/* fundo */
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    background-image:
+        linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+    background-size:40px 40px;
+    mask-image:linear-gradient(to bottom,black,transparent);
+}
 
-        .subtitle {
-            text-align: center;
-            color: #94a3b8;
-            margin-bottom: 40px;
-        }
+/* topo */
+.topbar{
+    height:70px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 22px;
+    border-bottom:1px solid var(--border);
+    background:rgba(5,8,20,.65);
+    backdrop-filter:blur(20px);
+    position:sticky;
+    top:0;
+    z-index:10;
+}
 
-        .chat {
-            background: #1e293b;
-            border-radius: 20px;
-            padding: 20px;
-            min-height: 300px;
-        }
+.brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-weight:800;
+    letter-spacing:2px;
+}
 
-        .message {
-            background: #334155;
-            padding: 15px;
-            border-radius: 15px;
-            margin-bottom: 15px;
-        }
+.brand-orb{
+    width:34px;
+    height:34px;
+    border-radius:12px;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    box-shadow:0 0 25px rgba(139,92,246,.5);
+    position:relative;
+}
 
-        .input-area {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
+.brand-orb::after{
+    content:"";
+    position:absolute;
+    width:9px;
+    height:9px;
+    background:white;
+    border-radius:50%;
+    top:12px;
+    left:12px;
+    box-shadow:0 0 12px white;
+}
 
-        input {
-            flex: 1;
-            padding: 15px;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-        }
+.status{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    color:#aeb6cc;
+    font-size:12px;
+}
 
-        button {
-            border: none;
-            border-radius: 12px;
-            padding: 15px 20px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-    </style>
+.status-dot{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#22c55e;
+    box-shadow:0 0 12px #22c55e;
+}
+
+/* principal */
+.main{
+    width:min(900px,92%);
+    margin:auto;
+    padding:55px 0 30px;
+}
+
+/* apresentação */
+.hero{
+    text-align:center;
+    margin-bottom:35px;
+}
+
+.ai-orb{
+    width:105px;
+    height:105px;
+    margin:0 auto 22px;
+    border-radius:35px;
+    background:
+        radial-gradient(circle at 35% 30%,#ffffff,transparent 8%),
+        linear-gradient(135deg,#7c3aed,#06b6d4);
+    box-shadow:
+        0 0 35px rgba(124,58,237,.55),
+        0 0 90px rgba(6,182,212,.18);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:48px;
+    animation:float 4s ease-in-out infinite;
+}
+
+@keyframes float{
+    0%,100%{transform:translateY(0) rotate(0deg)}
+    50%{transform:translateY(-8px) rotate(2deg)}
+}
+
+.hero h1{
+    font-size:clamp(42px,12vw,72px);
+    letter-spacing:-4px;
+    line-height:1;
+    background:linear-gradient(90deg,#fff,#b9a5ff,#72e8ff,#fff);
+    background-size:250%;
+    -webkit-background-clip:text;
+    color:transparent;
+    animation:shine 5s linear infinite;
+}
+
+@keyframes shine{
+    to{background-position:250%}
+}
+
+.hero p{
+    margin-top:14px;
+    color:var(--muted);
+    font-size:16px;
+}
+
+/* chat */
+.chat{
+    min-height:430px;
+    border:1px solid var(--border);
+    border-radius:30px;
+    background:var(--panel);
+    backdrop-filter:blur(25px);
+    box-shadow:
+        0 25px 80px rgba(0,0,0,.35),
+        inset 0 1px rgba(255,255,255,.05);
+    padding:24px;
+    display:flex;
+    flex-direction:column;
+}
+
+.chat-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding-bottom:18px;
+    border-bottom:1px solid var(--border);
+}
+
+.chat-title{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-weight:700;
+}
+
+.mini-orb{
+    width:12px;
+    height:12px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#8b5cf6,#22d3ee);
+    box-shadow:0 0 15px #8b5cf6;
+}
+
+.chat-sub{
+    font-size:11px;
+    color:#6f7892;
+}
+
+/* mensagens */
+.messages{
+    flex:1;
+    padding:22px 4px;
+    overflow-y:auto;
+}
+
+.message{
+    max-width:82%;
+    padding:15px 17px;
+    border-radius:18px;
+    margin-bottom:14px;
+    line-height:1.5;
+    font-size:15px;
+    animation:appear .3s ease;
+}
+
+@keyframes appear{
+    from{opacity:0;transform:translateY(8px)}
+    to{opacity:1;transform:translateY(0)}
+}
+
+.nova-message{
+    background:rgba(255,255,255,.055);
+    border:1px solid var(--border);
+    border-bottom-left-radius:5px;
+}
+
+.user-message{
+    margin-left:auto;
+    background:linear-gradient(135deg,#6d3eea,#4f46e5);
+    border-bottom-right-radius:5px;
+}
+
+.typing{
+    display:none;
+    color:#7e88a5;
+    font-size:13px;
+    margin:5px 0 12px;
+}
+
+.typing span{
+    animation:blink 1.2s infinite;
+}
+
+@keyframes blink{
+    0%,100%{opacity:.25}
+    50%{opacity:1}
+}
+
+/* ações */
+.actions{
+    display:flex;
+    gap:9px;
+    overflow-x:auto;
+    padding:5px 0 16px;
+}
+
+.action{
+    white-space:nowrap;
+    border:1px solid var(--border);
+    background:rgba(255,255,255,.035);
+    color:#aeb6cc;
+    padding:10px 13px;
+    border-radius:13px;
+    font-size:12px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.action:hover{
+    background:rgba(139,92,246,.15);
+    border-color:rgba(139,92,246,.4);
+    color:white;
+}
+
+/* entrada */
+.input-area{
+    display:flex;
+    gap:10px;
+    background:rgba(0,0,0,.22);
+    border:1px solid var(--border);
+    padding:8px;
+    border-radius:19px;
+}
+
+.input-area input{
+    flex:1;
+    min-width:0;
+    border:0;
+    outline:0;
+    background:transparent;
+    color:white;
+    padding:12px;
+    font-size:15px;
+}
+
+.input-area input::placeholder{
+    color:#606a84;
+}
+
+.send{
+    width:48px;
+    height:48px;
+    border:0;
+    border-radius:14px;
+    color:white;
+    font-size:20px;
+    cursor:pointer;
+    background:linear-gradient(135deg,#7c3aed,#06b6d4);
+    box-shadow:0 0 20px rgba(124,58,237,.25);
+    transition:.2s;
+}
+
+.send:active{
+    transform:scale(.92);
+}
+
+/* rodapé */
+.footer{
+    text-align:center;
+    color:#4f5870;
+    font-size:11px;
+    padding:20px;
+}
+
+@media(max-width:600px){
+    .topbar{
+        padding:0 16px;
+    }
+
+    .main{
+        width:94%;
+        padding-top:38px;
+    }
+
+    .chat{
+        padding:17px;
+        border-radius:24px;
+        min-height:440px;
+    }
+
+    .ai-orb{
+        width:88px;
+        height:88px;
+        font-size:40px;
+        border-radius:28px;
+    }
+
+    .message{
+        max-width:90%;
+    }
+}
+</style>
 </head>
 
 <body>
 
-    <div class="container">
+<header class="topbar">
+    <div class="brand">
+        <div class="brand-orb"></div>
+        <span>NOVA</span>
+    </div>
 
-        <div class="logo">NOVA 🤖</div>
+    <div class="status">
+        <div class="status-dot"></div>
+        ONLINE
+    </div>
+</header>
 
-        <div class="subtitle">
-            Sua inteligência artificial pessoal
+<main class="main">
+
+    <section class="hero">
+        <div class="ai-orb">✦</div>
+        <h1>NOVA</h1>
+        <p>Uma inteligência artificial feita para pensar com você.</p>
+    </section>
+
+    <section class="chat">
+
+        <div class="chat-header">
+            <div class="chat-title">
+                <div class="mini-orb"></div>
+                NOVA
+            </div>
+            <div class="chat-sub">SISTEMA ONLINE</div>
         </div>
 
-        <div class="chat" id="chat">
+        <div class="messages" id="messages">
 
-            <div class="message">
-                Olá! 👋 Eu sou a NOVA.<br><br>
-                Estou começando agora, mas em breve vou poder
-                ajudar você com estudos, organização, decisões,
-                imagens, voz e muito mais.
+            <div class="message nova-message">
+                Olá. Eu sou a <b>NOVA</b>. ✦<br><br>
+                Ainda estou no começo da minha evolução, mas este é o meu primeiro passo.
+                <br><br>
+                <span style="color:#9da7c0">
+                O que você quer construir hoje?
+                </span>
             </div>
 
         </div>
 
-        <div class="input-area">
-
-            <input
-                type="text"
-                id="messageInput"
-                placeholder="Digite alguma coisa..."
-            >
-
-            <button onclick="sendMessage()">
-                Enviar
-            </button>
-
+        <div class="typing" id="typing">
+            NOVA está pensando<span>•••</span>
         </div>
 
+        <div class="actions">
+            <button class="action" onclick="quick('💡 Me dê uma ideia incrível')">💡 Ideias</button>
+            <button class="action" onclick="quick('📚 Me ajude a estudar')">📚 Estudar</button>
+            <button class="action" onclick="quick('🎯 Me ajude a tomar uma decisão')">🎯 Decisão</button>
+            <button class="action" onclick="quick('🚀 Quero criar algo novo')">🚀 Criar</button>
+        </div>
+
+        <div class="input-area">
+            <input
+                id="input"
+                type="text"
+                placeholder="Converse com a NOVA..."
+                autocomplete="off"
+            >
+            <button class="send" onclick="send()">➤</button>
+        </div>
+
+    </section>
+
+    <div class="footer">
+        NOVA AI • Primeira versão • Em evolução contínua
     </div>
 
-    <script>
+</main>
 
-        function sendMessage() {
+<script>
+const input = document.getElementById("input");
+const messages = document.getElementById("messages");
+const typing = document.getElementById("typing");
 
-            const input = document.getElementById("messageInput");
-            const chat = document.getElementById("chat");
+function addMessage(text, user=false){
+    const div = document.createElement("div");
 
-            if (input.value.trim() === "") {
-                return;
-            }
+    div.className = user
+        ? "message user-message"
+        : "message nova-message";
 
-            const userMessage = document.createElement("div");
+    div.innerHTML = text;
 
-            userMessage.className = "message";
+    messages.appendChild(div);
+    messages.scrollTop = messages.scrollHeight;
+}
 
-            userMessage.innerText = "Você: " + input.value;
+function novaReply(text){
 
-            chat.appendChild(userMessage);
+    typing.style.display = "block";
 
-            const novaMessage = document.createElement("div");
+    setTimeout(() => {
 
-            novaMessage.className = "message";
+        typing.style.display = "none";
 
-            novaMessage.innerText =
-                "NOVA: Ainda estou aprendendo! 🧠 Em breve vou conseguir responder isso de verdade.";
+        let reply =
+        "Interessante... 👀<br><br>" +
+        "Eu ainda estou sendo construída. " +
+        "Meu cérebro de inteligência artificial será conectado em uma próxima etapa. " +
+        "Por enquanto, você está conversando com a primeira versão da NOVA. ✦";
 
-            chat.appendChild(novaMessage);
+        if(text.toLowerCase().includes("oi") ||
+           text.toLowerCase().includes("olá")){
 
-            input.value = "";
+            reply =
+            "Olá! 👋<br><br>" +
+            "É muito bom ter você aqui. " +
+            "Eu sou a NOVA — e essa é só a minha primeira versão.";
         }
 
-    </script>
+        if(text.toLowerCase().includes("ideia")){
+
+            reply =
+            "Tenho uma para você. 💡<br><br>" +
+            "Em vez de ser apenas mais uma IA que responde perguntas, " +
+            "a NOVA pode aprender como cada pessoa pensa e se adaptar a ela.<br><br>" +
+            "Isso poderia tornar cada NOVA diferente.";
+        }
+
+        addMessage(reply);
+
+    },1000);
+}
+
+function send(){
+
+    const text = input.value.trim();
+
+    if(!text) return;
+
+    addMessage(text,true);
+
+    input.value="";
+
+    novaReply(text);
+}
+
+function quick(text){
+
+    input.value=text;
+    send();
+
+}
+
+input.addEventListener("keydown",function(e){
+
+    if(e.key==="Enter"){
+        send();
+    }
+
+});
+</script>
 
 </body>
 </html>
