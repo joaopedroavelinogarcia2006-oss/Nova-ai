@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NOVA AI</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #0f172a;
+            color: white;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: auto;
+            padding: 30px 20px;
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 42px;
+            font-weight: bold;
+            margin-top: 40px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #94a3b8;
+            margin-bottom: 40px;
+        }
+
+        .chat {
+            background: #1e293b;
+            border-radius: 20px;
+            padding: 20px;
+            min-height: 300px;
+        }
+
+        .message {
+            background: #334155;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+        }
+
+        .input-area {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        input {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+        }
+
+        button {
+            border: none;
+            border-radius: 12px;
+            padding: 15px 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="logo">NOVA 🤖</div>
+
+        <div class="subtitle">
+            Sua inteligência artificial pessoal
+        </div>
+
+        <div class="chat" id="chat">
+
+            <div class="message">
+                Olá! 👋 Eu sou a NOVA.<br><br>
+                Estou começando agora, mas em breve vou poder
+                ajudar você com estudos, organização, decisões,
+                imagens, voz e muito mais.
+            </div>
+
+        </div>
+
+        <div class="input-area">
+
+            <input
+                type="text"
+                id="messageInput"
+                placeholder="Digite alguma coisa..."
+            >
+
+            <button onclick="sendMessage()">
+                Enviar
+            </button>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        function sendMessage() {
+
+            const input = document.getElementById("messageInput");
+            const chat = document.getElementById("chat");
+
+            if (input.value.trim() === "") {
+                return;
+            }
+
+            const userMessage = document.createElement("div");
+
+            userMessage.className = "message";
+
+            userMessage.innerText = "Você: " + input.value;
+
+            chat.appendChild(userMessage);
+
+            const novaMessage = document.createElement("div");
+
+            novaMessage.className = "message";
+
+            novaMessage.innerText =
+                "NOVA: Ainda estou aprendendo! 🧠 Em breve vou conseguir responder isso de verdade.";
+
+            chat.appendChild(novaMessage);
+
+            input.value = "";
+        }
+
+    </script>
+
+</body>
+</html>
